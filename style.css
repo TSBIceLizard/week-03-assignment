@@ -3,3 +3,158 @@
   padding: 0px;
   box-sizing: 0px;
 }
+
+body {
+  margin-top: 2em;
+  margin-left: 6em;
+  margin-right: 6em;
+  background-color: black;
+  color: beige;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: 12em 36em 4em 24em;
+}
+
+h1 {
+  font-size: 6rem;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  text-align: center;
+}
+
+#bank-area {
+  margin-left: 12rem;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  font-size: 2em;
+}
+
+#current-oreo-count {
+  margin-left: 12rem;
+  margin-top: 10rem;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  img {
+    width: 25%;
+    height: auto;
+  }
+}
+
+#current-oreos-number {
+  font-size: 4rem;
+  padding: 2rem;
+  font-style: oblique;
+}
+
+#oreo-income {
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 3;
+  grid-column-end: 3;
+  font-size: 2em;
+  text-align: center;
+}
+
+#oreo-per-sec-area {
+  text-align: center;
+  margin-right: 6rem;
+  margin-left: 4rem;
+  margin-top: 8rem;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 3;
+  grid-column-end: 3;
+  img {
+    width: 10em;
+    height: 8em;
+  }
+  p {
+    max-width: 25%;
+    margin: auto;
+  }
+}
+
+#current-oreos-income {
+  font-size: 4rem;
+  padding: 2rem;
+  font-style: oblique;
+}
+
+#shop-title {
+  grid-row-start: 3;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  font-size: 3em;
+  text-align: center;
+}
+
+#shop-container {
+  display: flex;
+  justify-content: center;
+  grid-row-start: 4;
+  grid-row-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 2;
+}
+
+#first-up {
+  margin-top: 3em;
+  width: 10em;
+  height: 8em;
+}
+
+#second-up {
+  margin-top: 3em;
+  width: 10em;
+  height: 8em;
+}
+
+#third-up {
+  margin-top: 3em;
+  width: 10em;
+  height: 8em;
+}
+
+#fourth-up {
+  margin-top: 3em;
+  width: 10em;
+  height: 8em;
+}
+
+#first-shop-sect p {
+  text-align: center;
+}
+
+#second-shop-sect p {
+  text-align: center;
+}
+
+#third-shop-sect p {
+  text-align: center;
+}
+
+#fourth-shop-sect p {
+  text-align: center;
+}
+
+#center-stage {
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 2;
+}
+
+#main-video {
+  margin: 4em;
+  width: 48em;
+  height: auto;
+  display: flex;
+  align-content: center;
+}
