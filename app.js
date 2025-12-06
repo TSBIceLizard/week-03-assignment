@@ -123,10 +123,12 @@ const loadFirstUp = localStorage.getItem("FirstUpg");
 const loadSecUp = localStorage.getItem("SecUpg");
 const loadThirdUp = localStorage.getItem("ThirdUpg");
 const loadFourUp = localStorage.getItem("FourUpg");
+parseInt(loadCCC);
+parseInt(loadCPS);
 
 function loadGame() {
   if (loadCCC) {
-    currentCookieCount = currentCookieCount = loadCCC;
+    currentCookieCount = currentCookieCount + loadCCC;
     return currentCookieCount;
   }
   if (loadCPS) {
@@ -176,6 +178,7 @@ newGameButton.addEventListener("click", function () {
   shopAvails[1].isAvailable = false;
   shopAvails[2].isAvailable = false;
   shopAvails[3].isAvailable = false;
+  newGameButton.textContent = "Now refresh the page!";
 });
 
 //================================
