@@ -34,26 +34,13 @@
 
 //================================
 
-let progress = {
-  currentCookieCount: 0,
-  cookiesPerSecond: 0,
-  up1Avail: true,
-  up2Avail: false,
-  up3Avail: false,
-  up4Avail: false,
-  upgrade1Purch: false,
-  upgrade2Purch: false,
-  upgrade3Purch: false,
-  upgrade4Purch: false,
-};
+let currentCookieCount = 0;
+let cookiesPerSecond = 0;
 
-// let currentCookieCount = 0;
-// let cookiesPerSecond = 0;
-
-// let upgrade1Purch = false;
-// let upgrade2Purch = false;
-// let upgrade3Purch = false;
-// let upgrade4Purch = false;
+let upgrade1Purch = false;
+let upgrade2Purch = false;
+let upgrade3Purch = false;
+let upgrade4Purch = false;
 
 // let refreshCurrentCookieCnt = (currentOreosNumber.textContent =
 //   currentCookieCount);
@@ -108,67 +95,62 @@ const upgrade8Cost = document.createElement("p");
 const upgrade9Cost = document.createElement("p");
 const upgrade10Cost = document.createElement("p");
 
-// let shopAvails = [
-//   {
-//     upgName: "upgrade1",
-//     isAvailable: true,
-//   },
-//   {
-//     upgName: "upgrade2",
-//     isAvailable: false,
-//   },
-//   {
-//     upgName: "upgrade3",
-//     isAvailable: false,
-//   },
-//   {
-//     upgName: "upgrade4",
-//     isAvailable: false,
-//   },
-// ];
+let shopAvails = [
+  {
+    upgName: "upgrade1",
+    isAvailable: true,
+  },
+  {
+    upgName: "upgrade2",
+    isAvailable: false,
+  },
+  {
+    upgName: "upgrade3",
+    isAvailable: false,
+  },
+  {
+    upgName: "upgrade4",
+    isAvailable: false,
+  },
+];
 
 //================================
 //Load current progress
 
-// let loadCCC = localStorage.getItem("CCC");
-// let loadCPS = localStorage.getItem("CPS");
-// let loadFirstUp = localStorage.getItem("FirstUpg");
-// let loadSecUp = localStorage.getItem("SecUpg");
-// let loadThirdUp = localStorage.getItem("ThirdUpg");
-// let loadFourUp = localStorage.getItem("FourUpg");
-// parseInt(loadCCC);
-// parseInt(loadCPS);
-
-// function loadGame() {
-//   if (loadCCC) {
-//     progress.currentCookieCount = loadCCC;
-//     // return currentCookieCount;
-//   }
-//   if (loadCPS) {
-//     progress.cookiesPerSecond = loadCPS;
-//     // return cookiesPerSecond;
-//   }
-//   if (loadFirstUp == true) {
-//     progress.upgrade1Purch = true;
-//     // return upgrade1Purch;
-//   }
-//   if (loadSecUp == true) {
-//     progress.upgrade2Purch = true;
-//     // return upgrade2Purch;
-//   }
-//   if (loadThirdUp == true) {
-//     progress.upgrade3Purch = true;
-//     // return upgrade3Purch;
-//   }
-//   if (loadFourUp == true) {
-//     progress.upgrade4Purch = true;
-//     // return upgrade4Purch;
-//   }
-// }
+const loadCCC = localStorage.getItem("CCC");
+const loadCPS = localStorage.getItem("CPS");
+const loadFirstUp = localStorage.getItem("FirstUpg");
+const loadSecUp = localStorage.getItem("SecUpg");
+const loadThirdUp = localStorage.getItem("ThirdUpg");
+const loadFourUp = localStorage.getItem("FourUpg");
+parseInt(loadCCC);
+parseInt(loadCPS);
 
 function loadGame() {
-  let loadProgress = JSON.parse(localStorage.getItem("progress"));
-  progress = loadProgress;
+  if (loadCCC) {
+    currentCookieCount = currentCookieCount + loadCCC;
+    return currentCookieCount;
+  }
+  if (loadCPS) {
+    cookiesPerSecond = cookiesPerSecond + loadCPS;
+    return cookiesPerSecond;
+  }
+  if (loadFirstUp == true) {
+    upgrade1Purch = true;
+    return upgrade1Purch;
+  }
+  if (loadSecUp == true) {
+    upgrade2Purch = true;
+    return upgrade2Purch;
+  }
+  if (loadThirdUp == true) {
+    upgrade3Purch = true;
+    return upgrade3Purch;
+  }
+  if (loadFourUp == true) {
+    upgrade4Purch = true;
+    return upgrade4Purch;
+  }
 }
 
 loadGame();
@@ -180,17 +162,22 @@ newGameSection.appendChild(newGameButton);
 newGameButton.textContent = "Start a new game";
 
 newGameButton.addEventListener("click", function () {
-  localStorage.clear();
-  progress.currentCookieCount = 0;
-  progress.cookiesPerSecond = 0;
-  progress.upgrade1Purch = false;
-  progress.upgrade2Purch = false;
-  progress.upgrade3Purch = false;
-  progress.upgrade4Purch = false;
-  progress.up1Avail = true;
-  progress.up2Avail = false;
-  progress.up3Avail = false;
-  progress.up4Avail = false;
+  localStorage.removeItem("CCC");
+  localStorage.removeItem("CPS");
+  currentCookieCount = 0;
+  cookiesPerSecond = 0;
+  upgrade1Purch = false;
+  upgrade2Purch = false;
+  upgrade3Purch = false;
+  upgrade4Purch = false;
+  localStorage.removeItem("FirstUpg");
+  localStorage.removeItem("SecUpg");
+  localStorage.removeItem("ThirdUpg");
+  localStorage.removeItem("FourUpg");
+  shopAvails[0].isAvailable = true;
+  shopAvails[1].isAvailable = false;
+  shopAvails[2].isAvailable = false;
+  shopAvails[3].isAvailable = false;
   newGameButton.textContent = "Now refresh the page!";
 });
 
@@ -280,23 +267,21 @@ async function getCookieData() {
 
   upgrade1.addEventListener("click", function () {
     if (
-      progress.up1Avail == true &&
-      progress.currentCookieCount >= upgrades[0].cost &&
-      progress.upgrade1Purch == false
+      shopAvails[0].isAvailable == true &&
+      currentCookieCount >= upgrades[0].cost &&
+      upgrade1Purch == false
     ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[0].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[0].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up1Avail = false;
-      progress.upgrade1Purch = true;
+      cookiesPerSecond = cookiesPerSecond + upgrades[0].increase;
+      currentCookieCount = currentCookieCount - upgrades[0].cost;
+      currentOreosNumber.textContent = currentCookieCount;
+      currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[0].isAvailable = false;
+      upgrade1Purch = true;
       upgrade1Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
-      // localStorage.setItem("CCC", JSON.stringify(progress.currentCookieCount);
-      // localStorage.setItem("CPS", progress.cookiesPerSecond);
-      // return progress.cookiesPerSecond;
+      localStorage.setItem("FirstUpg", upgrade1Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
+      return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[0].name}!`);
     }
@@ -304,21 +289,21 @@ async function getCookieData() {
 
   upgrade2.addEventListener("click", function () {
     if (
-      progress.up2Avail == true &&
-      progress.currentCookieCount >= upgrades[1].cost &&
-      progress.upgrade2Purch == false
+      shopAvails[1].isAvailable == true &&
+      currentCookieCount >= upgrades[1].cost &&
+      upgrade2Purch == false
     ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[1].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[1].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up2Avail = false;
-      progress.upgrade2Purch = true;
+      cookiesPerSecond = cookiesPerSecond + upgrades[1].increase;
+      currentCookieCount = currentCookieCount - upgrades[1].cost;
+      currentOreosNumber.textContent = currentCookieCount;
+      currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[1].isAvailable = false;
+      upgrade2Purch = true;
       upgrade2Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
-      // return cookiesPerSecond;
+      localStorage.setItem("SecUpg", upgrade2Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
+      return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[1].name}!`);
     }
@@ -326,21 +311,21 @@ async function getCookieData() {
 
   upgrade3.addEventListener("click", function () {
     if (
-      progress.up3Avail == true &&
-      progress.currentCookieCount >= upgrades[2].cost &&
-      progress.upgrade3Purch == false
+      shopAvails[2].isAvailable == true &&
+      currentCookieCount >= upgrades[2].cost &&
+      upgrade3Purch == false
     ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[2].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[2].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up3Avail = false;
-      progress.upgrade3Purch = true;
+      cookiesPerSecond = cookiesPerSecond + upgrades[2].increase;
+      currentCookieCount = currentCookieCount - upgrades[2].cost;
+      currentOreosNumber.textContent = currentCookieCount;
+      currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[2].isAvailable = false;
+      upgrade3Purch = true;
       upgrade3Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
-      // return cookiesPerSecond;
+      localStorage.setItem("ThirdUpg", upgrade3Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
+      return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[2].name}!`);
     }
@@ -348,21 +333,21 @@ async function getCookieData() {
 
   upgrade4.addEventListener("click", function () {
     if (
-      progress.up4Avail == true &&
-      progress.currentCookieCount >= upgrades[3].cost &&
-      progress.upgrade4Purch == false
+      shopAvails[3].isAvailable == true &&
+      currentCookieCount >= upgrades[3].cost &&
+      upgrade4Purch == false
     ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[3].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[3].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up4Avail = false;
-      progress.upgrade4Purch = true;
+      cookiesPerSecond = cookiesPerSecond + upgrades[3].increase;
+      currentCookieCount = currentCookieCount - upgrades[3].cost;
+      currentOreosNumber.textContent = currentCookieCount;
+      currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[3].isAvailable = false;
+      upgrade4Purch = true;
       upgrade4Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
-      // return cookiesPerSecond;
+      localStorage.setItem("FourUpg", upgrade4Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
+      return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[3].name}!`);
     }
@@ -370,9 +355,7 @@ async function getCookieData() {
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
-    progress.up2Avail = true;
-    // shopAvails[1].isAvailable = true;
-    localStorage.setItem("progress", JSON.stringify(progress));
+    shopAvails[1].isAvailable = true;
     upgrade2.src = "./graphics/loaf-2736953_640.png";
     upgrade2.alt = "Upgrade oven (adds +5 to Oreo's Per Second)";
     upgrade2Text.textContent = "Enhanced Oven: +5 OPS";
@@ -381,9 +364,7 @@ async function getCookieData() {
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
-    progress.up3Avail = true;
-    // shopAvails[2].isAvailable = true;
-    localStorage.setItem("progress", JSON.stringify(progress));
+    shopAvails[2].isAvailable = true;
     upgrade3.src = "./graphics/cookie-2566665_640.png";
     upgrade3.alt = "Upgrade to Cookie Farm (adds +10 to Oreo's Per Second)";
     upgrade3Text.textContent = "Cookie Farm: +10 OPS";
@@ -391,9 +372,7 @@ async function getCookieData() {
   }, 120000);
 
   setTimeout(function () {
-    progress.up4Avail = true;
-    // shopAvails[3].isAvailable = true;
-    localStorage.setItem("progress", JSON.stringify(progress));
+    shopAvails[3].isAvailable = true;
     upgrade4.src = "./graphics/synthetic-8597464_640_OREO2.png";
     upgrade4.alt = "Workforce optimization (adds +20 to Oreo's Per Second)";
     upgrade4Text.textContent = "Digital Baker: +20 OPS";
@@ -407,51 +386,51 @@ getCookieData();
 //================================
 // Center stage
 
-// function createDefaultVid() {
-//   centerStage.appendChild(mainVid);
-//   mainVid.src = "./graphics/video/61955-501113823_tiny.mp4";
-//   mainVid.alt = "Person rolling dough";
-//   mainVid.id = "main-video";
-//   mainVid.loop = true;
-//   mainVid.autoplay = true;
-// }
+function createDefaultVid() {
+  centerStage.appendChild(mainVid);
+  mainVid.src = "./graphics/video/61955-501113823_tiny.mp4";
+  mainVid.alt = "Person rolling dough";
+  mainVid.id = "main-video";
+  mainVid.loop = true;
+  mainVid.autoplay = true;
+}
 
-// createDefaultVid();
+createDefaultVid();
 
-// if (progress.currentCookieCount >= 250) {
-//   mainVid.src = "./graphics/video/8931-215796370_tiny.mp4";
-//   mainVid.alt = "Experienced person rolling dough";
-// } else if (progress.currentCookieCount >= 750) {
-//   mainVid.src = "./graphics/video/53861-475905146_tiny.mp4";
-//   mainVid.alt = "Business dough rolling";
-// } else if (progress.currentCookieCount >= 3000) {
-//   mainVid.src = "./graphics/video/91282-629546524_tiny.mp4";
-// } else {
-//   mainVid.src = "./graphics/video/61955-501113823_tiny.mp4";
-//   mainVid.alt = "Person rolling dough";
-// }
+if (currentCookieCount < 750 && currentCookieCount >= 250) {
+  mainVid.src = "./graphics/video/8931-215796370_tiny.mp4";
+  mainVid.alt = "Experienced person rolling dough";
+} else if (currentCookieCount >= 750 && currentCookieCount < 3000) {
+  mainVid.src = "./graphics/video/53861-475905146_tiny.mp4";
+  mainVid.alt = "Business dough rolling";
+} else if (currentCookieCount >= 3000) {
+  mainVid.src = "./graphics/video/91282-629546524_tiny.mp4";
+} else {
+  mainVid.src = "./graphics/video/61955-501113823_tiny.mp4";
+  mainVid.alt = "Person rolling dough";
+}
 
 //================================
 
-// const oreoConveyar = document.getElementById("oreo-conveyar");
+const oreoConveyar = document.getElementById("oreo-conveyar");
 
-// if (progress.cookiesPerSecond > 0) {
-//   oreoConveyar.src = "./graphics/OreoConveyar2.gif";
-// } else if (progress.cookiesPerSecond > 1) {
-//   oreoConveyar.src = "./graphics/OreoConveyar3.gif";
-// } else if (progress.cookiesPerSecond > 6) {
-//   oreoConveyar.src = "./graphics/OreoConveyar4.gif";
-// } else if (progress.cookiesPerSecond > 16) {
-//   oreoConveyar.src = "./graphics/OreoConveyar5.gif";
-// }
+if (cookiesPerSecond > 0) {
+  oreoConveyar.src = "./graphics/OreoConveyar2.gif";
+} else if (cookiesPerSecond > 1) {
+  oreoConveyar.src = "./graphics/OreoConveyar3.gif";
+} else if (cookiesPerSecond > 6) {
+  oreoConveyar.src = "./graphics/OreoConveyar4.gif";
+} else if (cookiesPerSecond > 16) {
+  oreoConveyar.src = "./graphics/OreoConveyar5.gif";
+}
 
 //================================
 
 clickArea.addEventListener("click", function () {
-  progress.currentCookieCount++;
-  console.log(`You have ${progress.currentCookieCount}`);
-  currentOreosNumber.textContent = progress.currentCookieCount;
-  localStorage.setItem("progress", JSON.stringify(progress));
+  currentCookieCount++;
+  console.log(`You have ${currentCookieCount}`);
+  currentOreosNumber.textContent = currentCookieCount;
+  localStorage.setItem("CCC", currentCookieCount);
 });
 
 //================================Can you afford item
@@ -490,13 +469,13 @@ clickArea.addEventListener("click", function () {
 
 //================================
 
-// Cookies per second interval
+// The interval
 
 setInterval(function () {
-  progress.currentCookieCount += progress.cookiesPerSecond; //currentCookieCount = currentCookieCount + cookiesPerSecond
-  currentOreosNumber.textContent = progress.currentCookieCount;
-  localStorage.setItem("progress", JSON.stringify(progress));
-  // localStorage.setItem("CPS", progress.cookiesPerSecond);
+  currentCookieCount += cookiesPerSecond; //currentCookieCount = currentCookieCount + cookiesPerSecond
+  currentOreosNumber.textContent = currentCookieCount;
+  localStorage.setItem("CCC", currentCookieCount);
+  localStorage.setItem("CPS", cookiesPerSecond);
   //update the DOM to reflect the changes in the values.
   // save the values in local storage
 }, 1000);
