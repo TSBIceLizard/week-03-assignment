@@ -15,6 +15,10 @@ body {
   grid-template-rows: 12em 36em 4em 24em;
 }
 
+#new-game-sect p {
+  font-size: 2em;
+}
+
 h1 {
   font-size: 6rem;
   grid-row-start: 1;
@@ -155,6 +159,73 @@ h1 {
   margin: 4em;
   width: 48em;
   height: auto;
-  display: flex;
-  align-content: center;
+}
+
+@media only screen and (max-width: 1920px) {
+  h1 {
+    font-size: 3rem;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    text-align: center;
+  }
+
+  body {
+    margin-top: 2em;
+    margin-left: 6em;
+    margin-right: 6em;
+    background-color: black;
+    color: beige;
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    grid-template-rows: 8em 28em 4em 24em;
+  }
+
+  #current-oreo-count {
+    margin-left: 6rem;
+    margin-top: 10rem;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    img {
+      width: 75%;
+      height: auto;
+    }
+  }
+
+  #main-video {
+    margin: 2em;
+    width: 24em;
+    height: auto;
+  }
+}
+
+#bank-area {
+  margin-left: 6rem;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  font-size: 2em;
+}
+
+#oreo-per-sec-area {
+  text-align: center;
+  margin-right: 4rem;
+  margin-left: 2rem;
+  margin-top: 8rem;
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 3;
+  grid-column-end: 3;
+  img {
+    width: 10em;
+    height: 8em;
+  }
+  p {
+    max-width: 50%;
+    margin: auto;
+  }
 }

@@ -13,9 +13,34 @@
 //- Make sure the local storage values are updated after the user buys an upgrade OR (and) when the user clicks on the cookie.
 
 //================================
+//Load current progress
+
+// function loadGame() {
+//   const loadCCC = localStorage.getItem("CCC");
+//   const loadCPS = localStorage.getItem("CPS");
+//   const loadFirstUp = localStorage.getItem("FirstUpg");
+//   const loadSecUp = localStorage.getItem("SecUpg");
+//   const loadThirdUp = localStorage.getItem("ThirdUpg");
+//   const loadFourUp = localStorage.getItem("FourUpg");
+//   currentCookieCount = loadCCC;
+//   cookiesPerSecond = loadCPS;
+//   upgrade1Purch = loadFirstUp;
+//   upgrade2Purch = loadSecUp;
+//   upgrade3Purch = loadThirdUp;
+//   upgrade4Purch = loadFourUp;
+// }
+
+// loadGame();
+
+//================================
 
 let currentCookieCount = 0;
 let cookiesPerSecond = 0;
+
+let upgrade1Purch = false;
+let upgrade2Purch = false;
+let upgrade3Purch = false;
+let upgrade4Purch = false;
 
 // let refreshCurrentCookieCnt = (currentOreosNumber.textContent =
 //   currentCookieCount);
@@ -26,6 +51,8 @@ const currentOreosNumber = document.getElementById("current-oreos-number");
 const currentOreosIncome = document.getElementById("current-oreos-income");
 const shopContainer = document.getElementById("shop-container");
 const centerStage = document.getElementById("center-stage");
+const newGameSection = document.getElementById("new-game-sect");
+const newGameButton = document.createElement("p");
 const mainVid = document.createElement("video");
 const shopItem1 = document.createElement("section");
 const shopItem2 = document.createElement("section");
@@ -68,27 +95,90 @@ const upgrade8Cost = document.createElement("p");
 const upgrade9Cost = document.createElement("p");
 const upgrade10Cost = document.createElement("p");
 
-let upgrade1Avail = true;
-let upgrade2Avail = false;
-let upgrade3Avail = false;
-let upgrade4Avail = false;
-let upgrade5Avail = false;
-let upgrade6Avail = false;
-let upgrade7Avail = false;
-let upgrade8Avail = false;
-let upgrade9Avail = false;
-let upgrade10Avail = false;
+let shopAvails = [
+  {
+    upgName: "upgrade1",
+    isAvailable: true,
+  },
+  {
+    upgName: "upgrade2",
+    isAvailable: false,
+  },
+  {
+    upgName: "upgrade3",
+    isAvailable: false,
+  },
+  {
+    upgName: "upgrade4",
+    isAvailable: false,
+  },
+];
 
-let upgrade1Purch = false;
-let upgrade2Purch = false;
-let upgrade3Purch = false;
-let upgrade4Purch = false;
-let upgrade5Purch = false;
-let upgrade6Purch = false;
-let upgrade7Purch = false;
-let upgrade8Purch = false;
-let upgrade9Purch = false;
-let upgrade10Purch = false;
+//================================
+//Load current progress
+
+const loadCCC = localStorage.getItem("CCC");
+const loadCPS = localStorage.getItem("CPS");
+const loadFirstUp = localStorage.getItem("FirstUpg");
+const loadSecUp = localStorage.getItem("SecUpg");
+const loadThirdUp = localStorage.getItem("ThirdUpg");
+const loadFourUp = localStorage.getItem("FourUpg");
+
+function loadGame() {
+  if (loadCCC) {
+    currentCookieCount = currentCookieCount = loadCCC;
+    return currentCookieCount;
+  }
+  if (loadCPS) {
+    cookiesPerSecond = cookiesPerSecond + loadCPS;
+    return cookiesPerSecond;
+  }
+  if (loadFirstUp == true) {
+    upgrade1Purch = true;
+    return upgrade1Purch;
+  }
+  if (loadSecUp == true) {
+    upgrade2Purch = true;
+    return upgrade2Purch;
+  }
+  if (loadThirdUp == true) {
+    upgrade3Purch = true;
+    return upgrade3Purch;
+  }
+  if (loadFourUp == true) {
+    upgrade4Purch = true;
+    return upgrade4Purch;
+  }
+}
+
+loadGame();
+
+//================================
+// New Game button
+
+newGameSection.appendChild(newGameButton);
+newGameButton.textContent = "Start a new game";
+
+newGameButton.addEventListener("click", function () {
+  localStorage.removeItem("CCC");
+  localStorage.removeItem("CPS");
+  currentCookieCount = 0;
+  cookiesPerSecond = 0;
+  upgrade1Purch = false;
+  upgrade2Purch = false;
+  upgrade3Purch = false;
+  upgrade4Purch = false;
+  localStorage.removeItem("FirstUpg");
+  localStorage.removeItem("SecUpg");
+  localStorage.removeItem("ThirdUpg");
+  localStorage.removeItem("FourUpg");
+  shopAvails[0].isAvailable = true;
+  shopAvails[1].isAvailable = false;
+  shopAvails[2].isAvailable = false;
+  shopAvails[3].isAvailable = false;
+});
+
+//================================
 
 //================================
 //Create the shop
@@ -105,64 +195,64 @@ async function getCookieData() {
     shopContainer.appendChild(shopItem2);
     shopContainer.appendChild(shopItem3);
     shopContainer.appendChild(shopItem4);
-    shopContainer.appendChild(shopItem5);
-    shopContainer.appendChild(shopItem6);
-    shopContainer.appendChild(shopItem7);
-    shopContainer.appendChild(shopItem8);
-    shopContainer.appendChild(shopItem9);
-    shopContainer.appendChild(shopItem10);
+    // shopContainer.appendChild(shopItem5);
+    // shopContainer.appendChild(shopItem6);
+    // shopContainer.appendChild(shopItem7);
+    // shopContainer.appendChild(shopItem8);
+    // shopContainer.appendChild(shopItem9);
+    // shopContainer.appendChild(shopItem10);
     shopItem1.appendChild(upgrade1Cost);
     shopItem2.appendChild(upgrade2Cost);
     shopItem3.appendChild(upgrade3Cost);
     shopItem4.appendChild(upgrade4Cost);
-    shopItem5.appendChild(upgrade5Cost);
-    shopItem6.appendChild(upgrade6Cost);
-    shopItem7.appendChild(upgrade7Cost);
-    shopItem8.appendChild(upgrade8Cost);
-    shopItem9.appendChild(upgrade9Cost);
-    shopItem10.appendChild(upgrade10Cost);
+    // shopItem5.appendChild(upgrade5Cost);
+    // shopItem6.appendChild(upgrade6Cost);
+    // shopItem7.appendChild(upgrade7Cost);
+    // shopItem8.appendChild(upgrade8Cost);
+    // shopItem9.appendChild(upgrade9Cost);
+    // shopItem10.appendChild(upgrade10Cost);
     shopItem1.appendChild(upgrade1);
     shopItem2.appendChild(upgrade2);
     shopItem3.appendChild(upgrade3);
     shopItem4.appendChild(upgrade4);
-    shopItem5.appendChild(upgrade5);
-    shopItem6.appendChild(upgrade6);
-    shopItem7.appendChild(upgrade7);
-    shopItem8.appendChild(upgrade8);
-    shopItem9.appendChild(upgrade9);
-    shopItem10.appendChild(upgrade10);
+    // shopItem5.appendChild(upgrade5);
+    // shopItem6.appendChild(upgrade6);
+    // shopItem7.appendChild(upgrade7);
+    // shopItem8.appendChild(upgrade8);
+    // shopItem9.appendChild(upgrade9);
+    // shopItem10.appendChild(upgrade10);
     shopItem1.appendChild(upgrade1Text);
     shopItem2.appendChild(upgrade2Text);
     shopItem3.appendChild(upgrade3Text);
     shopItem4.appendChild(upgrade4Text);
-    shopItem5.appendChild(upgrade5Text);
-    shopItem6.appendChild(upgrade6Text);
-    shopItem7.appendChild(upgrade7Text);
-    shopItem8.appendChild(upgrade8Text);
-    shopItem9.appendChild(upgrade9Text);
-    shopItem10.appendChild(upgrade10Text);
+    // shopItem5.appendChild(upgrade5Text);
+    // shopItem6.appendChild(upgrade6Text);
+    // shopItem7.appendChild(upgrade7Text);
+    // shopItem8.appendChild(upgrade8Text);
+    // shopItem9.appendChild(upgrade9Text);
+    // shopItem10.appendChild(upgrade10Text);
     shopItem1.id = "first-shop-sect";
     shopItem2.id = "second-shop-sect";
     shopItem3.id = "third-shop-sect";
     shopItem4.id = "fourth-shop-sect";
-    shopItem5.id = "fifth-shop-sect";
-    shopItem6.id = "sixth-shop-sect";
-    shopItem7.id = "seventh-shop-sect";
-    shopItem8.id = "eighth-shop-sect";
-    shopItem9.id = "ninth-shop-sect";
-    shopItem10.id = "tenth-shop-sect";
+    // shopItem5.id = "fifth-shop-sect";
+    // shopItem6.id = "sixth-shop-sect";
+    // shopItem7.id = "seventh-shop-sect";
+    // shopItem8.id = "eighth-shop-sect";
+    // shopItem9.id = "ninth-shop-sect";
+    // shopItem10.id = "tenth-shop-sect";
     upgrade1Cost.textContent = `Cost: ${upgrades[0].cost}`;
     upgrade1Text.textContent = "Auto-Clicker: +1 OPS";
     upgrade1Cost.id = "first-shop-price";
     upgrade2Text.id = "second-shop-desc";
     upgrade3Text.id = "third-shop-desc";
     upgrade4Text.id = "fourth-shop-desc";
-    upgrade5Text.id = "fifth-shop-desc";
-    upgrade6Text.id = "sixth-shop-desc";
-    upgrade7Text.id = "seventh-shop-desc";
-    upgrade8Text.id = "eighth-shop-desc";
-    upgrade9Text.id = "ninth-shop-desc";
-    upgrade10Text.id = "tenth-shop-sect";
+    // upgrade5Text.id = "fifth-shop-desc";
+    // upgrade6Text.id = "sixth-shop-desc";
+    // upgrade7Text.id = "seventh-shop-desc";
+    // upgrade8Text.id = "eighth-shop-desc";
+    // upgrade9Text.id = "ninth-shop-desc";
+    // upgrade10Text.id = "tenth-shop-sect";
     upgrade1.src = "./graphics/cake-2201861_640.png";
     upgrade1.id = "first-up";
     upgrade1.alt = "Autoclicker (adds +1 to Oreo's Per Second)";
@@ -173,11 +263,21 @@ async function getCookieData() {
   createShopItems();
 
   upgrade1.addEventListener("click", function () {
-    if (upgrade1Avail == true && currentCookieCount >= upgrades[0].cost) {
+    if (
+      shopAvails[0].isAvailable == true &&
+      currentCookieCount >= upgrades[0].cost &&
+      upgrade1Purch == false
+    ) {
       cookiesPerSecond = cookiesPerSecond + upgrades[0].increase;
       currentCookieCount = currentCookieCount - upgrades[0].cost;
       currentOreosNumber.textContent = currentCookieCount;
       currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[0].isAvailable = false;
+      upgrade1Purch = true;
+      upgrade1Cost.textContent = `Cost: SOLD!`;
+      localStorage.setItem("FirstUpg", upgrade1Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
       return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[0].name}!`);
@@ -185,41 +285,74 @@ async function getCookieData() {
   });
 
   upgrade2.addEventListener("click", function () {
-    if (upgrade2Avail == true && currentCookieCount >= upgrades[1].cost) {
+    if (
+      shopAvails[1].isAvailable == true &&
+      currentCookieCount >= upgrades[1].cost &&
+      upgrade2Purch == false
+    ) {
       cookiesPerSecond = cookiesPerSecond + upgrades[1].increase;
       currentCookieCount = currentCookieCount - upgrades[1].cost;
       currentOreosNumber.textContent = currentCookieCount;
       currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[1].isAvailable = false;
+      upgrade2Purch = true;
+      upgrade2Cost.textContent = `Cost: SOLD!`;
+      localStorage.setItem("SecUpg", upgrade2Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
       return cookiesPerSecond;
+    } else {
+      console.log(`You cannot afford ${upgrades[1].name}!`);
     }
-    console.log(`You cannot afford ${upgrades[1].name}!`);
   });
 
   upgrade3.addEventListener("click", function () {
-    if (upgrade3Avail == true && currentCookieCount >= upgrades[2].cost) {
+    if (
+      shopAvails[2].isAvailable == true &&
+      currentCookieCount >= upgrades[2].cost &&
+      upgrade3Purch == false
+    ) {
       cookiesPerSecond = cookiesPerSecond + upgrades[2].increase;
       currentCookieCount = currentCookieCount - upgrades[2].cost;
       currentOreosNumber.textContent = currentCookieCount;
       currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[2].isAvailable = false;
+      upgrade3Purch = true;
+      upgrade3Cost.textContent = `Cost: SOLD!`;
+      localStorage.setItem("ThirdUpg", upgrade3Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
       return cookiesPerSecond;
+    } else {
+      console.log(`You cannot afford ${upgrades[2].name}!`);
     }
-    console.log(`You cannot afford ${upgrades[2].name}!`);
   });
 
   upgrade4.addEventListener("click", function () {
-    if (upgrade4Avail == true && currentCookieCount >= upgrades[3].cost) {
+    if (
+      shopAvails[3].isAvailable == true &&
+      currentCookieCount >= upgrades[3].cost &&
+      upgrade4Purch == false
+    ) {
       cookiesPerSecond = cookiesPerSecond + upgrades[3].increase;
       currentCookieCount = currentCookieCount - upgrades[3].cost;
       currentOreosNumber.textContent = currentCookieCount;
       currentOreosIncome.textContent = cookiesPerSecond;
+      shopAvails[3].isAvailable = false;
+      upgrade4Purch = true;
+      upgrade4Cost.textContent = `Cost: SOLD!`;
+      localStorage.setItem("FourUpg", upgrade4Purch);
+      localStorage.setItem("CCC", currentCookieCount);
+      localStorage.setItem("CPS", cookiesPerSecond);
       return cookiesPerSecond;
+    } else {
+      console.log(`You cannot afford ${upgrades[3].name}!`);
     }
-    console.log(`You cannot afford ${upgrades[3].name}!`);
   });
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
-    upgrade2Avail = true;
+    shopAvails[1].isAvailable = true;
     upgrade2.src = "./graphics/loaf-2736953_640.png";
     upgrade2.alt = "Upgrade oven (adds +5 to Oreo's Per Second)";
     upgrade2Text.textContent = "Enhanced Oven: +5 OPS";
@@ -228,7 +361,7 @@ async function getCookieData() {
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
-    upgrade3Avail = true;
+    shopAvails[2].isAvailable = true;
     upgrade3.src = "./graphics/cookie-2566665_640.png";
     upgrade3.alt = "Upgrade to Cookie Farm (adds +10 to Oreo's Per Second)";
     upgrade3Text.textContent = "Cookie Farm: +10 OPS";
@@ -236,7 +369,7 @@ async function getCookieData() {
   }, 120000);
 
   setTimeout(function () {
-    upgrade4Avail = true;
+    shopAvails[3].isAvailable = true;
     upgrade4.src = "./graphics/synthetic-8597464_640_OREO2.png";
     upgrade4.alt = "Workforce optimization (adds +20 to Oreo's Per Second)";
     upgrade4Text.textContent = "Digital Baker: +20 OPS";
@@ -276,10 +409,25 @@ if (currentCookieCount < 750 && currentCookieCount >= 250) {
 
 //================================
 
+const oreoConveyar = document.getElementById("oreo-conveyar");
+
+if (cookiesPerSecond > 0) {
+  oreoConveyar.src = "./graphics/OreoConveyar2.gif";
+} else if (cookiesPerSecond > 1) {
+  oreoConveyar.src = "./graphics/OreoConveyar3.gif";
+} else if (cookiesPerSecond > 6) {
+  oreoConveyar.src = "./graphics/OreoConveyar4.gif";
+} else if (cookiesPerSecond > 16) {
+  oreoConveyar.src = "./graphics/OreoConveyar5.gif";
+}
+
+//================================
+
 clickArea.addEventListener("click", function () {
   currentCookieCount++;
   console.log(`You have ${currentCookieCount}`);
   currentOreosNumber.textContent = currentCookieCount;
+  localStorage.setItem("CCC", currentCookieCount);
 });
 
 //================================Can you afford item
@@ -323,6 +471,8 @@ clickArea.addEventListener("click", function () {
 setInterval(function () {
   currentCookieCount += cookiesPerSecond; //currentCookieCount = currentCookieCount + cookiesPerSecond
   currentOreosNumber.textContent = currentCookieCount;
+  localStorage.setItem("CCC", currentCookieCount);
+  localStorage.setItem("CPS", cookiesPerSecond);
   //update the DOM to reflect the changes in the values.
   // save the values in local storage
 }, 1000);
