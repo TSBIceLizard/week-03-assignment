@@ -47,6 +47,19 @@ let progress = {
   upgrade4Purch: false,
 };
 
+let ccc = progress.currentCookieCount;
+let cps = progress.cookiesPerSecond;
+let up1Ava = progress.up1Avail;
+let up2Ava = progress.up2Avail;
+let up3Ava = progress.up3Avail;
+let up4Ava = progress.up4Avail;
+let upg1Purch = progress.upgrade1Purch;
+let upg2Purch = progress.upgrade2Purch;
+let upg3Purch = progress.upgrade3Purch;
+let upg4Purch = progress.upgrade4Purch;
+
+let hasLoaded = false;
+
 // let currentCookieCount = 0;
 // let cookiesPerSecond = 0;
 
@@ -167,8 +180,15 @@ const upgrade10Cost = document.createElement("p");
 // }
 
 function loadGame() {
-  let loadProgress = JSON.parse(localStorage.getItem("progress"));
-  progress = loadProgress;
+  if (hasLoaded == false && localStorage.getItem("progress") == null) {
+    console.log("Starting a new game.");
+    hasLoaded = true;
+  } else if (hasLoaded == false) {
+    let loadProgress = JSON.parse(localStorage.getItem("progress"));
+    progress = loadProgress;
+    hasLoaded = true;
+    console.log("progress loaded");
+  }
 }
 
 loadGame();
@@ -180,17 +200,17 @@ newGameSection.appendChild(newGameButton);
 newGameButton.textContent = "Start a new game";
 
 newGameButton.addEventListener("click", function () {
+  ccc = 0;
+  cps = 0;
+  upg1Purch = false;
+  upg2Purch = false;
+  upg3Purch = false;
+  upg4Purch = false;
+  up1Ava = true;
+  up2Ava = false;
+  up3Ava = false;
+  up4Ava = false;
   localStorage.clear();
-  progress.currentCookieCount = 0;
-  progress.cookiesPerSecond = 0;
-  progress.upgrade1Purch = false;
-  progress.upgrade2Purch = false;
-  progress.upgrade3Purch = false;
-  progress.upgrade4Purch = false;
-  progress.up1Avail = true;
-  progress.up2Avail = false;
-  progress.up3Avail = false;
-  progress.up4Avail = false;
   newGameButton.textContent = "Now refresh the page!";
 });
 
@@ -279,19 +299,13 @@ async function getCookieData() {
   createShopItems();
 
   upgrade1.addEventListener("click", function () {
-    if (
-      progress.up1Avail == true &&
-      progress.currentCookieCount >= upgrades[0].cost &&
-      progress.upgrade1Purch == false
-    ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[0].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[0].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up1Avail = false;
-      progress.upgrade1Purch = true;
+    if (up1Ava == true && ccc >= upgrades[0].cost && upg1Purch == false) {
+      cps = cps + upgrades[0].increase;
+      ccc = ccc - upgrades[0].cost;
+      currentOreosNumber.textContent = ccc;
+      currentOreosIncome.textContent = cps;
+      up1Ava = false;
+      upg1Purch = true;
       upgrade1Cost.textContent = `Cost: SOLD!`;
       localStorage.setItem("progress", JSON.stringify(progress));
       // localStorage.setItem("CCC", JSON.stringify(progress.currentCookieCount);
@@ -303,19 +317,13 @@ async function getCookieData() {
   });
 
   upgrade2.addEventListener("click", function () {
-    if (
-      progress.up2Avail == true &&
-      progress.currentCookieCount >= upgrades[1].cost &&
-      progress.upgrade2Purch == false
-    ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[1].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[1].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up2Avail = false;
-      progress.upgrade2Purch = true;
+    if (up2Ava == true && ccc >= upgrades[1].cost && upg2Purch == false) {
+      cps = cps + upgrades[1].increase;
+      ccc = ccc - upgrades[1].cost;
+      currentOreosNumber.textContent = ccc;
+      currentOreosIncome.textContent = cps;
+      up2Ava = false;
+      upg2Purch = true;
       upgrade2Cost.textContent = `Cost: SOLD!`;
       localStorage.setItem("progress", JSON.stringify(progress));
       // return cookiesPerSecond;
@@ -325,19 +333,13 @@ async function getCookieData() {
   });
 
   upgrade3.addEventListener("click", function () {
-    if (
-      progress.up3Avail == true &&
-      progress.currentCookieCount >= upgrades[2].cost &&
-      progress.upgrade3Purch == false
-    ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[2].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[2].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up3Avail = false;
-      progress.upgrade3Purch = true;
+    if (up3Ava == true && ccc >= upgrades[2].cost && upg3Purch == false) {
+      cps = cps + upgrades[2].increase;
+      ccc = ccc - upgrades[2].cost;
+      currentOreosNumber.textContent = ccc;
+      currentOreosIncome.textContent = cps;
+      up3Ava = false;
+      upg3Purch = true;
       upgrade3Cost.textContent = `Cost: SOLD!`;
       localStorage.setItem("progress", JSON.stringify(progress));
       // return cookiesPerSecond;
@@ -347,19 +349,13 @@ async function getCookieData() {
   });
 
   upgrade4.addEventListener("click", function () {
-    if (
-      progress.up4Avail == true &&
-      progress.currentCookieCount >= upgrades[3].cost &&
-      progress.upgrade4Purch == false
-    ) {
-      progress.cookiesPerSecond =
-        progress.cookiesPerSecond + upgrades[3].increase;
-      progress.currentCookieCount =
-        progress.currentCookieCount - upgrades[3].cost;
-      currentOreosNumber.textContent = progress.currentCookieCount;
-      currentOreosIncome.textContent = progress.cookiesPerSecond;
-      progress.up4Avail = false;
-      progress.upgrade4Purch = true;
+    if (up4Ava == true && ccc >= upgrades[3].cost && upg4Purch == false) {
+      cps = cps + upgrades[3].increase;
+      ccc = ccc - upgrades[3].cost;
+      currentOreosNumber.textContent = ccc;
+      currentOreosIncome.textContent = cps;
+      up4Ava = false;
+      upg4Purch = true;
       upgrade4Cost.textContent = `Cost: SOLD!`;
       localStorage.setItem("progress", JSON.stringify(progress));
       // return cookiesPerSecond;
@@ -370,7 +366,7 @@ async function getCookieData() {
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
-    progress.up2Avail = true;
+    up2Ava = true;
     // shopAvails[1].isAvailable = true;
     localStorage.setItem("progress", JSON.stringify(progress));
     upgrade2.src = "./graphics/loaf-2736953_640.png";
@@ -381,7 +377,7 @@ async function getCookieData() {
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
-    progress.up3Avail = true;
+    up3Ava = true;
     // shopAvails[2].isAvailable = true;
     localStorage.setItem("progress", JSON.stringify(progress));
     upgrade3.src = "./graphics/cookie-2566665_640.png";
@@ -391,7 +387,7 @@ async function getCookieData() {
   }, 120000);
 
   setTimeout(function () {
-    progress.up4Avail = true;
+    up4Ava = true;
     // shopAvails[3].isAvailable = true;
     localStorage.setItem("progress", JSON.stringify(progress));
     upgrade4.src = "./graphics/synthetic-8597464_640_OREO2.png";
@@ -448,9 +444,9 @@ getCookieData();
 //================================
 
 clickArea.addEventListener("click", function () {
-  progress.currentCookieCount++;
-  console.log(`You have ${progress.currentCookieCount}`);
-  currentOreosNumber.textContent = progress.currentCookieCount;
+  ccc++;
+  console.log(`You have ${ccc}`);
+  currentOreosNumber.textContent = ccc;
   localStorage.setItem("progress", JSON.stringify(progress));
 });
 
@@ -492,11 +488,13 @@ clickArea.addEventListener("click", function () {
 
 // Cookies per second interval
 
-setInterval(function () {
-  progress.currentCookieCount += progress.cookiesPerSecond; //currentCookieCount = currentCookieCount + cookiesPerSecond
-  currentOreosNumber.textContent = progress.currentCookieCount;
-  localStorage.setItem("progress", JSON.stringify(progress));
-  // localStorage.setItem("CPS", progress.cookiesPerSecond);
-  //update the DOM to reflect the changes in the values.
-  // save the values in local storage
-}, 1000);
+if (hasLoaded == true) {
+  setInterval(function () {
+    ccc += cps; //currentCookieCount = currentCookieCount + cookiesPerSecond
+    currentOreosNumber.textContent = ccc;
+    localStorage.setItem("progress", JSON.stringify(progress));
+    // localStorage.setItem("CPS", progress.cookiesPerSecond);
+    //update the DOM to reflect the changes in the values.
+    // save the values in local storage
+  }, 1000);
+}
