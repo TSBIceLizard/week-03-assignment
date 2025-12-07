@@ -45,18 +45,33 @@ let progress = {
   upgrade2Purch: false,
   upgrade3Purch: false,
   upgrade4Purch: false,
+  GameTime: 0,
 };
 
-let ccc = progress.currentCookieCount;
-let cps = progress.cookiesPerSecond;
-let up1Ava = progress.up1Avail;
-let up2Ava = progress.up2Avail;
-let up3Ava = progress.up3Avail;
-let up4Ava = progress.up4Avail;
-let upg1Purch = progress.upgrade1Purch;
-let upg2Purch = progress.upgrade2Purch;
-let upg3Purch = progress.upgrade3Purch;
-let upg4Purch = progress.upgrade4Purch;
+// let ccc = progress.currentCookieCount;
+// let cps = progress.cookiesPerSecond;
+// let up1Ava = progress.up1Avail;
+// let up2Ava = progress.up2Avail;
+// let up3Ava = progress.up3Avail;
+// let up4Ava = progress.up4Avail;
+// let upg1Purch = progress.upgrade1Purch;
+// let upg2Purch = progress.upgrade2Purch;
+// let upg3Purch = progress.upgrade3Purch;
+// let upg4Purch = progress.upgrade4Purch;
+
+let {
+  currentCookieCount: ccc,
+  cookiesPerSecond: cps,
+  up1Avail: up1Ava,
+  up2Avail: up2Ava,
+  up3Avail: up3Ava,
+  up4Avail: up4Ava,
+  upgrade1Purch: upg1Purch,
+  upgrade2Purch: upg2Purch,
+  upgrade3Purch: upg3Purch,
+  upgrade4Purch: upg4Purch,
+  GameTime: GameTime,
+} = progress;
 
 let hasLoaded = false;
 
@@ -186,7 +201,29 @@ function loadGame() {
   } else if (hasLoaded == false) {
     let loadProgress = JSON.parse(localStorage.getItem("progress"));
     progress = loadProgress;
+    ccc = progress.currentCookieCount;
+    cps = progress.cookiesPerSecond;
+    up1Ava = progress.up1Avail;
+    up2Ava = progress.up2Avail;
+    up3Ava = progress.up3Avail;
+    up4Ava = progress.up4Avail;
+    upg1Purch = progress.upg1Purch;
+    upg2Purch = progress.upg2Purch;
+    upg3Purch = progress.upg3Purch;
+    upg4Purch = progress.upg4Purch;
     hasLoaded = true;
+    if (progress.upg1Purch == true) {
+      upgrade1Cost.textContent = "Cost: SOLD!";
+    }
+    if (progress.upg2Purch == true) {
+      upgrade2Cost.textContent = "Cost: SOLD!";
+    }
+    if (progress.upg3Purch == true) {
+      upgrade3Cost.textContent = "Cost: SOLD!";
+    }
+    if (progress.upg4Purch == true) {
+      upgrade4Cost.textContent = "Cost: SOLD!";
+    }
     console.log("progress loaded");
   }
 }
@@ -306,8 +343,8 @@ async function getCookieData() {
       currentOreosIncome.textContent = cps;
       up1Ava = false;
       upg1Purch = true;
-      upgrade1Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
+      upgrade1Cost.textContent = "Cost: SOLD!";
+      // localStorage.setItem("progress", JSON.stringify(progress));
       // localStorage.setItem("CCC", JSON.stringify(progress.currentCookieCount);
       // localStorage.setItem("CPS", progress.cookiesPerSecond);
       // return progress.cookiesPerSecond;
@@ -325,7 +362,7 @@ async function getCookieData() {
       up2Ava = false;
       upg2Purch = true;
       upgrade2Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
+      // localStorage.setItem("progress", JSON.stringify(progress));
       // return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[1].name}!`);
@@ -341,7 +378,7 @@ async function getCookieData() {
       up3Ava = false;
       upg3Purch = true;
       upgrade3Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
+      // localStorage.setItem("progress", JSON.stringify(progress));
       // return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[2].name}!`);
@@ -357,7 +394,7 @@ async function getCookieData() {
       up4Ava = false;
       upg4Purch = true;
       upgrade4Cost.textContent = `Cost: SOLD!`;
-      localStorage.setItem("progress", JSON.stringify(progress));
+      // localStorage.setItem("progress", JSON.stringify(progress));
       // return cookiesPerSecond;
     } else {
       console.log(`You cannot afford ${upgrades[3].name}!`);
@@ -368,33 +405,33 @@ async function getCookieData() {
   setTimeout(function () {
     up2Ava = true;
     // shopAvails[1].isAvailable = true;
-    localStorage.setItem("progress", JSON.stringify(progress));
+    // localStorage.setItem("progress", JSON.stringify(progress));
     upgrade2.src = "./graphics/loaf-2736953_640.png";
     upgrade2.alt = "Upgrade oven (adds +5 to Oreo's Per Second)";
     upgrade2Text.textContent = "Enhanced Oven: +5 OPS";
     upgrade2Cost.textContent = `Cost: ${upgrades[1].cost}`;
-  }, 30000);
+  }, 30000 - GameTime);
 
   //2nd Shop item appears after 30 seconds past!
   setTimeout(function () {
     up3Ava = true;
     // shopAvails[2].isAvailable = true;
-    localStorage.setItem("progress", JSON.stringify(progress));
+    // localStorage.setItem("progress", JSON.stringify(progress));
     upgrade3.src = "./graphics/cookie-2566665_640.png";
     upgrade3.alt = "Upgrade to Cookie Farm (adds +10 to Oreo's Per Second)";
     upgrade3Text.textContent = "Cookie Farm: +10 OPS";
     upgrade3Cost.textContent = `Cost: ${upgrades[2].cost}`;
-  }, 120000);
+  }, 120000 - GameTime);
 
   setTimeout(function () {
     up4Ava = true;
     // shopAvails[3].isAvailable = true;
-    localStorage.setItem("progress", JSON.stringify(progress));
+    // localStorage.setItem("progress", JSON.stringify(progress));
     upgrade4.src = "./graphics/synthetic-8597464_640_OREO2.png";
     upgrade4.alt = "Workforce optimization (adds +20 to Oreo's Per Second)";
     upgrade4Text.textContent = "Digital Baker: +20 OPS";
     upgrade4Cost.textContent = `Cost: ${upgrades[3].cost}`;
-  }, 300000);
+  }, 300000 - GameTime);
 }
 // TODO: Stringify upgradeData. Or maybe this wouldn't be necessary as not related to save game progress?
 
@@ -447,7 +484,7 @@ clickArea.addEventListener("click", function () {
   ccc++;
   console.log(`You have ${ccc}`);
   currentOreosNumber.textContent = ccc;
-  localStorage.setItem("progress", JSON.stringify(progress));
+  // localStorage.setItem("progress", JSON.stringify(progress));
 });
 
 //================================Can you afford item
@@ -492,7 +529,21 @@ if (hasLoaded == true) {
   setInterval(function () {
     ccc += cps; //currentCookieCount = currentCookieCount + cookiesPerSecond
     currentOreosNumber.textContent = ccc;
+    currentOreosIncome.textContent = cps;
+    GameTime++;
+    progress.currentCookieCount = ccc;
+    progress.cookiesPerSecond = cps;
+    progress.up1Avail = up1Ava;
+    progress.up2Avail = up2Ava;
+    progress.up3Avail = up3Ava;
+    progress.up4Avail = up4Ava;
+    progress.upg1Purch = upg1Purch;
+    progress.upg2Purch = upg2Purch;
+    progress.upg3Purch = upg3Purch;
+    progress.upg4Purch = upg4Purch;
+    progress.GameTime = GameTime;
     localStorage.setItem("progress", JSON.stringify(progress));
+    // console.log(JSON.stringify(progress));
     // localStorage.setItem("CPS", progress.cookiesPerSecond);
     //update the DOM to reflect the changes in the values.
     // save the values in local storage
